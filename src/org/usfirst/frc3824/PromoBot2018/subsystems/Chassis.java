@@ -70,12 +70,26 @@ public class Chassis extends Subsystem
 	
 	public void driveWithJoystick(Joystick joystick)
 	{
+		double moveValue   = 0.0;
+		double twist	   = 0.0;
+		double rotateValue = 0.0;
+		
 		// XBox Controller
-		// differentialDrive.arcadeDrive(joystick.getRawAxis(2),
-		// joystick.getRawAxis(4), true);
+//		twist = joystick.getRawAxis(4);
+//		moveValue = joystick.getRawAxis(2);
+//		rotateValue = twist;
 		
 		// Gaming Joystick
-		differentialDrive.arcadeDrive(joystick.getY(), joystick.getTwist(), true);
+		moveValue = joystick.getY();
+		twist = joystick.getTwist();
+		
+		if(twist < 0.0) {
+			rotateValue = -(Math.pow(twist, 2)) * 0.6;
+		} else {
+			rotateValue = Math.pow(twist, 2) * 0.6;
+		}
+		
+		differentialDrive.arcadeDrive(moveValue, rotateValue);
 	}
 	
 	public void shiftGears(boolean high)
